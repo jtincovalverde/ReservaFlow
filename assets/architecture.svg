@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="420" viewBox="0 0 1100 420">
+<rect width="1100" height="420" rx="28" fill="#0b0f14"/>
+<text x="55" y="62" font-family="Arial" font-size="32" font-weight="700" fill="#eef3f8">ReservaFlow Architecture</text>
+<text x="55" y="95" font-family="Arial" font-size="16" fill="#9aa8b7">Authentication, reservation workflows and persistence</text>
+<rect x="70" y="160" width="220" height="140" rx="22" fill="#111821" stroke="#2f4257" stroke-width="2"/>
+<text x="180" y="205" text-anchor="middle" font-family="Arial" font-size="22" font-weight="700" fill="#eef3f8">Browser</text>
+<text x="180" y="240" text-anchor="middle" font-family="Arial" font-size="15" fill="#9aa8b7">HTML · CSS · Bootstrap</text>
+<text x="180" y="268" text-anchor="middle" font-family="Arial" font-size="15" fill="#9aa8b7">JavaScript · Forms</text>
+<rect x="440" y="130" width="240" height="200" rx="22" fill="#111821" stroke="#5aa7ff" stroke-width="2"/>
+<text x="560" y="180" text-anchor="middle" font-family="Arial" font-size="24" font-weight="700" fill="#eef3f8">Flask App</text>
+<text x="560" y="218" text-anchor="middle" font-family="Arial" font-size="15" fill="#9aa8b7">Authentication &amp; sessions</text>
+<text x="560" y="247" text-anchor="middle" font-family="Arial" font-size="15" fill="#9aa8b7">CRUD · Search · Filters</text>
+<text x="560" y="276" text-anchor="middle" font-family="Arial" font-size="15" fill="#9aa8b7">Validation · Conflict checks</text>
+<rect x="820" y="160" width="210" height="140" rx="22" fill="#111821" stroke="#8a7cff" stroke-width="2"/>
+<text x="925" y="205" text-anchor="middle" font-family="Arial" font-size="22" font-weight="700" fill="#eef3f8">SQLite</text>
+<text x="925" y="240" text-anchor="middle" font-family="Arial" font-size="15" fill="#9aa8b7">users</text>
+<text x="925" y="268" text-anchor="middle" font-family="Arial" font-size="15" fill="#9aa8b7">reservations</text>
+<line x1="290" y1="230" x2="440" y2="230" stroke="#5aa7ff" stroke-width="4"/>
+<polygon points="430,222 445,230 430,238" fill="#5aa7ff"/>
+<line x1="680" y1="230" x2="820" y2="230" stroke="#8a7cff" stroke-width="4"/>
+<polygon points="810,222 825,230 810,238" fill="#8a7cff"/>
+<text x="365" y="213" text-anchor="middle" font-family="Arial" font-size="13" fill="#9aa8b7">HTTP</text>
+<text x="750" y="213" text-anchor="middle" font-family="Arial" font-size="13" fill="#9aa8b7">SQL</text>
+</svg>
