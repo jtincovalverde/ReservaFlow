@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+flask_session/
+project.db
+.env
+.venv/
+venv/
+.DS_Store
