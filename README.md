@@ -11,6 +11,10 @@ A reservation management web application built as my **CS50x Final Project**.
 **Video Demo:** https://www.youtube.com/watch?v=mBzinlOeNAw  
 **CS50x Certificate:** https://cs50.harvard.edu/certificates/33971312-603f-44b5-ae8c-69c073080305
 
+## Preview
+
+![ReservaFlow reservations interface](assets/reservations.png)
+
 ## Overview
 
 ReservaFlow is a web application that I created to manage reservations in a simple and organized way.
@@ -129,6 +133,8 @@ ReservaFlow/
 ├── requirements.txt
 ├── .env.example
 ├── .gitignore
+├── assets/
+│   └── reservations.png
 ├── static/
 │   ├── app.js
 │   └── styles.css
