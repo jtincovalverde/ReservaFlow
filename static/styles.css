@@ -1,0 +1,91 @@
+body {
+    background-color: #f7f8fa;
+    color: #212529;
+    min-height: 100vh;
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+}
+
+.navbar-brand i {
+    margin-right: 6px;
+}
+
+main {
+    min-height: 75vh;
+}
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 65vh;
+}
+
+.auth-card {
+    background: white;
+    width: 100%;
+    max-width: 430px;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.auth-card h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.btn-primary {
+    font-weight: 600;
+}
+
+.table-card {
+    background: white;
+    border-radius: 14px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.stat-card {
+    background: white;
+    border-radius: 14px;
+    padding: 1.5rem;
+    height: 100%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.stat-total {
+    border-top: 4px solid #212529;
+}
+
+.stat-pending {
+    border-top: 4px solid #ffc107;
+}
+
+.stat-confirmed {
+    border-top: 4px solid #198754;
+}
+
+.stat-completed {
+    border-top: 4px solid #0d6efd;
+}
+
+.stat-cancelled {
+    border-top: 4px solid #dc3545;
+}
+
+.stat-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.09);
+}
