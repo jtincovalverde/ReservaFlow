@@ -1,0 +1,120 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    New Reservation
+{% endblock %}
+
+{% block main %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="fw-bold mb-1">New Reservation</h1>
+        <p class="text-muted mb-0">
+            Create a new booking in ReservaFlow.
+        </p>
+    </div>
+
+    <a class="btn btn-outline-secondary" href="/reservations">
+        Back to Reservations
+    </a>
+</div>
+
+<div class="table-card">
+
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <form action="/add" method="post">
+
+        <div class="row g-3">
+
+            <div class="col-md-6">
+                <label class="form-label">Client Name</label>
+                <input
+                    autocomplete="off"
+                    autofocus
+                    class="form-control"
+                    name="client_name"
+                    placeholder="e.g. Andrea Flores"
+                    type="text"
+                    required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Phone</label>
+                <input
+                    autocomplete="off"
+                    class="form-control"
+                    name="phone"
+                    placeholder="e.g. 999 999 999"
+                    type="text">
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Service</label>
+                <select class="form-select" name="service" required>
+                    <option disabled selected value="">
+                        Select a service
+                    </option>
+                    <option value="Consultation">Consultation</option>
+                    <option value="Standard Session">Standard Session</option>
+                    <option value="Premium Session">Premium Session</option>
+                    <option value="Follow-up">Follow-up</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Status</label>
+                <select class="form-select" name="status">
+                    <option value="Pending">Pending</option>
+                    <option value="Confirmed">Confirmed</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Date</label>
+                <input
+                    class="form-control"
+                    id="reservation-date"
+                    name="date"
+                    type="date"
+                    required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Time</label>
+                <input
+                    class="form-control"
+                    name="time"
+                    type="time"
+                    required>
+            </div>
+
+            <div class="col-12">
+                <label class="form-label">Notes</label>
+                <textarea
+                    class="form-control"
+                    name="notes"
+                    placeholder="Optional notes about the reservation"
+                    rows="4"></textarea>
+            </div>
+
+        </div>
+
+        <div class="mt-4">
+            <button class="btn btn-primary" type="submit">
+                <i class="bi bi-calendar-plus"></i>
+                Create Reservation
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
