@@ -1,0 +1,114 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit Reservation
+{% endblock %}
+
+{% block main %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="fw-bold mb-1">Edit Reservation</h1>
+        <p class="text-muted mb-0">
+            Update the reservation information.
+        </p>
+    </div>
+
+    <a class="btn btn-outline-secondary" href="/reservations">
+        Back to Reservations
+    </a>
+</div>
+
+<div class="table-card">
+
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <form action="/edit/{{ reservation.id }}" method="post">
+
+        <div class="row g-3">
+
+            <div class="col-md-6">
+                <label class="form-label">Client Name</label>
+                <input
+                    class="form-control"
+                    name="client_name"
+                    type="text"
+                    value="{{ reservation.client_name }}"
+                    required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Phone</label>
+                <input
+                    class="form-control"
+                    name="phone"
+                    type="text"
+                    value="{{ reservation.phone }}">
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Service</label>
+                <select class="form-select" name="service" required>
+                    <option value="Consultation" {% if reservation.service == "Consultation" %}selected{% endif %}>Consultation</option>
+                    <option value="Standard Session" {% if reservation.service == "Standard Session" %}selected{% endif %}>Standard Session</option>
+                    <option value="Premium Session" {% if reservation.service == "Premium Session" %}selected{% endif %}>Premium Session</option>
+                    <option value="Follow-up" {% if reservation.service == "Follow-up" %}selected{% endif %}>Follow-up</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Status</label>
+                <select class="form-select" name="status">
+                    <option value="Pending" {% if reservation.status == "Pending" %}selected{% endif %}>Pending</option>
+                    <option value="Confirmed" {% if reservation.status == "Confirmed" %}selected{% endif %}>Confirmed</option>
+                    <option value="Completed" {% if reservation.status == "Completed" %}selected{% endif %}>Completed</option>
+                    <option value="Cancelled" {% if reservation.status == "Cancelled" %}selected{% endif %}>Cancelled</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Date</label>
+                <input
+                    class="form-control"
+                    name="date"
+                    type="date"
+                    value="{{ reservation.date }}"
+                    required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Time</label>
+                <input
+                    class="form-control"
+                    name="time"
+                    type="time"
+                    value="{{ reservation.time }}"
+                    required>
+            </div>
+
+            <div class="col-12">
+                <label class="form-label">Notes</label>
+                <textarea
+                    class="form-control"
+                    name="notes"
+                    rows="4">{{ reservation.notes }}</textarea>
+            </div>
+
+        </div>
+
+        <div class="mt-4">
+            <button class="btn btn-primary" type="submit">
+                <i class="bi bi-save"></i>
+                Save Changes
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
