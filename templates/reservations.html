@@ -1,0 +1,141 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Reservations
+{% endblock %}
+
+{% block main %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="fw-bold mb-1">Reservations</h1>
+        <p class="text-muted mb-0">
+            Manage all your bookings.
+        </p>
+    </div>
+
+    <a class="btn btn-primary" href="/add">
+        <i class="bi bi-plus-lg"></i>
+        New Reservation
+    </a>
+</div>
+
+<div class="table-card">
+
+    <form method="get" action="/reservations" class="row g-3 mb-4">
+
+        <div class="col-md-6">
+            <input
+                class="form-control"
+                type="text"
+                name="search"
+                placeholder="Search by client, service or phone"
+                value="{{ search }}">
+        </div>
+
+        <div class="col-md-4">
+            <select class="form-select" name="status">
+                <option value="">All statuses</option>
+                <option value="Pending" {% if selected_status == "Pending" %}selected{% endif %}>Pending</option>
+                <option value="Confirmed" {% if selected_status == "Confirmed" %}selected{% endif %}>Confirmed</option>
+                <option value="Completed" {% if selected_status == "Completed" %}selected{% endif %}>Completed</option>
+                <option value="Cancelled" {% if selected_status == "Cancelled" %}selected{% endif %}>Cancelled</option>
+            </select>
+        </div>
+
+        <div class="col-md-2 d-grid gap-2">
+            <button class="btn btn-primary" type="submit">
+                <i class="bi bi-search"></i>
+                Search
+            </button>
+
+            <a class="btn btn-outline-secondary" href="/reservations">
+                Clear
+            </a>
+        </div>
+
+    </form>
+
+    {% if reservations %}
+
+        <div class="table-responsive">
+            <table class="table align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Client</th>
+                        <th>Phone</th>
+                        <th>Service</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for reservation in reservations %}
+                        <tr>
+                            <td>{{ reservation.client_name }}</td>
+                            <td>
+                                {% if reservation.phone %}
+                                    {{ reservation.phone }}
+                                {% else %}
+                                    —
+                                {% endif %}
+                            </td>
+                            <td>{{ reservation.service }}</td>
+                            <td>{{ reservation.date }}</td>
+                            <td>{{ reservation.time }}</td>
+                            <td>
+                                {% if reservation.status == "Confirmed" %}
+                                    <span class="badge text-bg-success">Confirmed</span>
+                                {% elif reservation.status == "Completed" %}
+                                    <span class="badge text-bg-primary">Completed</span>
+                                {% elif reservation.status == "Cancelled" %}
+                                    <span class="badge text-bg-danger">Cancelled</span>
+                                {% else %}
+                                    <span class="badge text-bg-warning">Pending</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a class="btn btn-sm btn-outline-primary" href="/edit/{{ reservation.id }}">
+                                    <i class="bi bi-pencil"></i>
+                                    Edit
+                                </a>
+                                <form
+                                    action="/delete/{{ reservation.id }}"
+                                    method="post"
+                                    class="d-inline"
+                                    onsubmit="return confirm('Delete this reservation?');">
+                                    <button class="btn btn-sm btn-outline-danger" type="submit">
+                                        <i class="bi bi-trash"></i>
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+    {% else %}
+
+        <div class="text-center py-5">
+            <i class="bi bi-calendar-x fs-1 text-muted"></i>
+            <h4 class="mt-3">No reservations yet</h4>
+            <p class="text-muted">
+                Create your first reservation to get started.
+            </p>
+            <a class="btn btn-primary" href="/add">
+                Create Reservation
+            </a>
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
