@@ -1,0 +1,126 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block main %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="fw-bold mb-1">Dashboard</h1>
+        <p class="text-muted mb-0">
+            Welcome to ReservaFlow, {{ session["username"] }}.
+        </p>
+    </div>
+
+    <a class="btn btn-primary" href="/add">
+        <i class="bi bi-plus-lg"></i>
+        New Reservation
+    </a>
+</div>
+
+<div class="row g-4">
+
+    <div class="col-md-6 col-lg">
+        <div class="stat-card stat-total">
+            <p class="text-muted mb-2">Total</p>
+            <div class="stat-number">{{ total }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg">
+        <div class="stat-card stat-pending">
+            <p class="text-muted mb-2">Pending</p>
+            <div class="stat-number">{{ pending }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg">
+        <div class="stat-card stat-confirmed">
+            <p class="text-muted mb-2">Confirmed</p>
+            <div class="stat-number">{{ confirmed }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg">
+        <div class="stat-card stat-completed">
+            <p class="text-muted mb-2">Completed</p>
+            <div class="stat-number">{{ completed }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg">
+        <div class="stat-card stat-cancelled">
+            <p class="text-muted mb-2">Cancelled</p>
+            <div class="stat-number">{{ cancelled }}</div>
+        </div>
+    </div>
+
+</div>
+
+<div class="table-card mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="mb-0">Recent Reservations</h4>
+
+        <a href="/reservations" class="btn btn-sm btn-outline-secondary">
+            View All
+        </a>
+    </div>
+
+    {% if recent %}
+
+        <div class="table-responsive">
+            <table class="table align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Client</th>
+                        <th>Service</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for reservation in recent %}
+
+                        <tr>
+                            <td>{{ reservation.client_name }}</td>
+                            <td>{{ reservation.service }}</td>
+                            <td>{{ reservation.date }}</td>
+                            <td>{{ reservation.time }}</td>
+
+                            <td>
+                                {% if reservation.status == "Confirmed" %}
+                                    <span class="badge text-bg-success">Confirmed</span>
+                                {% elif reservation.status == "Completed" %}
+                                    <span class="badge text-bg-primary">Completed</span>
+                                {% elif reservation.status == "Cancelled" %}
+                                    <span class="badge text-bg-danger">Cancelled</span>
+                                {% else %}
+                                    <span class="badge text-bg-warning">Pending</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+
+    {% else %}
+
+        <p class="text-muted mb-0">
+            No reservations yet. Create your first reservation to get started.
+        </p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
