@@ -1,15 +1,16 @@
 # ReservaFlow
 
-A reservation management web application built as my **CS50x Final Project**.
+A full-stack reservation management web application built as my **CS50x Final Project**.
 
 [![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-Web%20App-000000?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
 [![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![JavaScript](https://img.shields.io/badge/JavaScript-Frontend-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/docs/Web/JavaScript)
+[![Python CI](https://github.com/jtincovalverde/ReservaFlow/actions/workflows/ci.yml/badge.svg)](https://github.com/jtincovalverde/ReservaFlow/actions/workflows/ci.yml)
 [![CS50x](https://img.shields.io/badge/CS50x-Completed-A51C30)](https://cs50.harvard.edu/certificates/33971312-603f-44b5-ae8c-69c073080305)
 
-**Video Demo:** https://www.youtube.com/watch?v=mBzinlOeNAw  
-**CS50x Certificate:** https://cs50.harvard.edu/certificates/33971312-603f-44b5-ae8c-69c073080305
+**Video demo:** https://www.youtube.com/watch?v=mBzinlOeNAw  
+**Verified CS50x certificate:** https://cs50.harvard.edu/certificates/33971312-603f-44b5-ae8c-69c073080305
 
 ## Preview
 
@@ -17,46 +18,34 @@ A reservation management web application built as my **CS50x Final Project**.
 
 ## Overview
 
-ReservaFlow is a web application that I created to manage reservations in a simple and organized way.
+ReservaFlow is a web application for managing reservations in a simple, structured workflow. It was designed around a common operational problem: bookings become difficult to control when they are spread across messages, notes, or spreadsheets.
 
-I chose this idea because reservation management is a real problem that can quickly become disorganized when information is handled through messages, notes, or spreadsheets. My goal was to build something that could be useful for a small business or an independent professional while also allowing me to apply several of the concepts I learned during CS50x.
+The application combines authentication, reservation management, search, filtering, dashboard metrics, scheduling validation, and user-level data separation in a single Flask application.
 
-The project was built with Python and Flask on the backend, SQLite for the database, HTML and Jinja for the templates, Bootstrap and CSS for the interface, and JavaScript for client-side behavior.
+## Architecture
+
+![ReservaFlow architecture](assets/architecture.svg)
+
+The browser sends requests to the Flask backend, which manages authentication, business rules, validation, reservation workflows, and persistence in SQLite.
 
 ## Main features
 
 - User registration, login, and logout
-- Password hashing for account security
+- Secure password hashing
 - Reservation creation, editing, and deletion
-- Dashboard statistics by reservation status
+- Dashboard metrics for Total, Pending, Confirmed, Completed, and Cancelled reservations
+- Recent reservations overview
 - Search by client, phone number, or service
-- Filter reservations by status
+- Filter by reservation status
 - Prevention of conflicting active reservations at the same date and time
-- Validation to prevent reservations in the past
-- User-level data separation so each account only accesses its own reservations
-- Responsive interface built with Bootstrap and custom CSS
+- Validation that prevents reservations in the past
+- User-level authorization so one account cannot edit another account's reservations
+- Responsive Bootstrap interface with custom CSS
+- Browser confirmation before destructive delete actions
 
-## How ReservaFlow works
+## Reservation workflow
 
-A user first creates an account and then logs into the application. Passwords are not stored as plain text. They are hashed before being saved in the database and checked securely when the user logs in.
-
-Once logged in, the user reaches the Dashboard.
-
-The Dashboard gives a quick overview of the current reservations. It shows five indicators:
-
-- Total
-- Pending
-- Confirmed
-- Completed
-- Cancelled
-
-These numbers are calculated from the database every time the dashboard loads.
-
-The dashboard also includes a Recent Reservations section so the user can quickly see the latest bookings without opening the complete reservation list.
-
-## Reservations
-
-A reservation contains:
+Each reservation stores:
 
 - Client name
 - Phone number
@@ -66,121 +55,106 @@ A reservation contains:
 - Status
 - Notes
 
-The phone number and notes are optional, while the main booking fields are required.
+The supported statuses are `Pending`, `Confirmed`, `Completed`, and `Cancelled`.
 
-The available statuses are Pending, Confirmed, Completed, and Cancelled.
+Cancelled bookings do not block their former time slot. When editing a reservation, the application excludes the current reservation from conflict detection so it does not conflict with itself.
 
-After creating a reservation, it appears on the Reservations page. From there, the user can edit or delete it. When editing a reservation, the existing information is loaded automatically into the form.
-
-For deletion, the interface asks for confirmation before the reservation is removed to reduce accidental deletions.
-
-## Preventing scheduling problems
-
-Before creating a new reservation, ReservaFlow checks whether another active reservation already exists for the same date and time. If it does, the new reservation is rejected and an error message is shown.
-
-Cancelled reservations do not block the time slot because once a reservation has been cancelled, that time should become available again.
-
-The same validation is applied when editing reservations. In that case, the system ignores the reservation currently being edited so it does not detect itself as a scheduling conflict.
-
-Another validation prevents reservations from being created in the past. JavaScript sets the minimum selectable date in the form to the current date, and the backend performs the same validation in Python so the application does not rely only on browser-side checks.
-
-## Search and filters
-
-The Reservations page includes a search function that can find reservations using the client name, phone number, or service.
-
-A status filter allows the user to display only Pending, Confirmed, Completed, or Cancelled reservations. The Clear button removes the current filters and returns to the complete list.
+Date validation is performed both in JavaScript and on the Python backend. This means the application does not depend only on browser-side validation.
 
 ## Database design
 
-ReservaFlow uses SQLite and has two main tables: `users` and `reservations`.
+ReservaFlow uses SQLite with two main tables:
 
-The `users` table stores account information. The `reservations` table stores booking information and contains a `user_id` that links each reservation to its owner.
+- `users` — account information and password hashes
+- `reservations` — booking information linked to a `user_id`
 
-The application checks the `user_id` when reading, editing, or deleting reservations. This prevents one user from accessing another user's bookings simply by modifying a URL.
+Reservation queries are scoped to the authenticated user. The application also verifies `user_id` during edit and delete operations to prevent unauthorized access by URL manipulation.
 
-## Running locally
+## Tech stack
 
-1. Clone or download this repository.
-2. Install the Python dependencies:
+| Layer | Technology |
+| --- | --- |
+| Backend | Python, Flask |
+| Database | SQLite, CS50 SQL |
+| Templates | HTML, Jinja |
+| Frontend | Bootstrap, custom CSS, JavaScript |
+| Authentication | Flask Session, Werkzeug password hashing |
+| Configuration | Environment variables / python-dotenv |
+| Automation | GitHub Actions CI |
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+## Run locally
+
+1. Clone or download the repository.
+2. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
 
 3. Create the SQLite database:
 
-   ```bash
-   sqlite3 project.db < schema.sql
-   ```
+```bash
+sqlite3 project.db < schema.sql
+```
 
-4. Optionally copy `.env.example` to `.env` and replace the example secret with your own secure value.
-5. Start the application:
+4. Optional but recommended: copy `.env.example` to `.env` and replace the example secret with your own secure value.
+5. Start the app:
 
-   ```bash
-   flask run
-   ```
+```bash
+flask run
+```
 
-6. Open the local Flask URL in your browser and register a new account.
+6. Open the local Flask URL and register a new account.
 
-The database file is intentionally excluded from this public repository. `schema.sql` contains the structure required to recreate it, while `.gitignore` prevents local database, session, environment, and cache files from being committed.
+The local database, sessions, environment file, and Python cache files are intentionally excluded from version control.
 
 ## Project structure
 
 ```text
 ReservaFlow/
-├── app.py
-├── schema.sql
-├── requirements.txt
-├── .env.example
-├── .gitignore
+├── .github/
+│   └── workflows/
+│       └── ci.yml
 ├── assets/
+│   ├── architecture.svg
 │   └── reservations.png
 ├── static/
 │   ├── app.js
 │   └── styles.css
-└── templates/
-    ├── add_reservation.html
-    ├── edit_reservation.html
-    ├── index.html
-    ├── layout.html
-    ├── login.html
-    ├── register.html
-    └── reservations.html
+├── templates/
+│   ├── add_reservation.html
+│   ├── edit_reservation.html
+│   ├── index.html
+│   ├── layout.html
+│   ├── login.html
+│   ├── register.html
+│   └── reservations.html
+├── .env.example
+├── .gitignore
+├── app.py
+├── requirements.txt
+└── schema.sql
 ```
-
-`app.py` contains the Flask application and backend logic, including authentication, database queries, dashboard calculations, CRUD operations, search, filtering, validation, and conflict detection.
-
-`schema.sql` defines the database tables and indexes.
-
-`templates/` contains the Jinja/HTML views, while `static/` contains the custom CSS and JavaScript.
 
 ## Design decisions
 
-At first, a reservation system can look like a simple CRUD application, but while developing it I noticed that several decisions were necessary for it to behave more like a real booking system.
+I kept reservation status in the same table rather than splitting bookings into separate tables by state. This makes status transitions simpler and avoids unnecessary duplication.
 
-For example, I chose to store reservation status in the same table instead of creating separate tables for pending or completed reservations. This makes changing a reservation from one state to another much simpler.
+I also chose to prevent active reservations from sharing the same date and time. That rule goes beyond basic CRUD behavior and makes the application closer to a real booking workflow.
 
-I also decided not to let active reservations share the same time slot. This was not necessary just to store information in a database, but it made more sense for the real problem the application is trying to solve.
-
-SQLite was enough for the scope of this project because the application is relatively small and does not require an external database server.
-
-For the interface, I used Bootstrap as a base and added custom CSS so the application would have its own visual identity instead of relying only on the default Bootstrap appearance.
+SQLite was appropriate for the scope of the project because it provides persistent relational storage without requiring a separate database server.
 
 ## CS50x
 
-ReservaFlow was submitted as my final project for **CS50x: Introduction to Computer Science**.
+ReservaFlow was submitted as my final project for **CS50x: Introduction to Computer Science** in 2026.
 
-- Certificate: https://cs50.harvard.edu/certificates/33971312-603f-44b5-ae8c-69c073080305
-- Video presentation: https://www.youtube.com/watch?v=mBzinlOeNAw
+- [Verify CS50x certificate](https://cs50.harvard.edu/certificates/33971312-603f-44b5-ae8c-69c073080305)
+- [Watch project video](https://www.youtube.com/watch?v=mBzinlOeNAw)
 
-## AI Assistance
+## AI assistance
 
-I used ChatGPT during the development of ReservaFlow as a programming assistant and tutor. It helped me review code, understand errors, discuss possible project structures, and debug problems while I developed and tested the application.
-
-The use of AI is also disclosed in the source code as required for the CS50x Final Project.
+ChatGPT was used during development as a programming assistant and tutor for explaining concepts, reviewing code, discussing project structure, and debugging. AI assistance is disclosed here and in the source code.
 
 ## Possible improvements
 
-ReservaFlow could be expanded in several ways in the future, including staff accounts, different reservation durations, configurable working hours, a calendar view, customer profiles, email reminders, exporting information, and more detailed reports.
-
-For the scope of my CS50x Final Project, I focused on creating a complete working reservation workflow instead of adding many features that I would not have enough time to implement and test properly.
+Future versions could add a calendar view, configurable working hours, different reservation durations, customer profiles, staff accounts, notifications, exports, analytics, and deployment to a production environment.
