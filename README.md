@@ -22,9 +22,13 @@ ReservaFlow centralizes that process into one system with clear reservation stat
 
 > **Management idea:** technology is useful when it removes friction, reduces repetitive work or gives the operation better visibility.
 
-## Preview
+## Operations preview
 
-![ReservaFlow reservations interface](assets/reservations.png)
+<p align="center">
+  <img src="assets/reservaflow-preview.svg" alt="ReservaFlow operations preview showing reservation control, KPIs and workflow" width="100%">
+</p>
+
+The visual above summarizes the operating logic behind the project: **capture → validate → schedule → track → decide**. The original application screenshot remains available in `assets/reservations.png`, but this overview is optimized for GitHub so the full concept is visible at a glance.
 
 ## What the system improves
 
@@ -124,7 +128,8 @@ ReservaFlow/
 ├── assets/
 │   ├── architecture.svg
 │   ├── reservations.png
-│   └── reservaflow-banner.svg
+│   ├── reservaflow-banner.svg
+│   └── reservaflow-preview.svg
 ├── static/
 │   ├── app.js
 │   └── styles.css
