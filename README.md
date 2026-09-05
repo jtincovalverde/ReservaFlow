@@ -1,49 +1,58 @@
-# ReservaFlow
+<p align="center">
+  <img src="assets/reservaflow-banner.svg" alt="ReservaFlow — reservation operations system" width="100%">
+</p>
 
-A full-stack reservation management web application built as my **CS50x Final Project**.
+<p align="center">
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white" alt="Python"></a>
+  <a href="https://flask.palletsprojects.com/"><img src="https://img.shields.io/badge/Flask-Web%20App-000000?logo=flask&logoColor=white" alt="Flask"></a>
+  <a href="https://www.sqlite.org/"><img src="https://img.shields.io/badge/SQLite-Database-003B57?logo=sqlite&logoColor=white" alt="SQLite"></a>
+  <a href="https://github.com/jtincovalverde/ReservaFlow/actions/workflows/ci.yml"><img src="https://github.com/jtincovalverde/ReservaFlow/actions/workflows/ci.yml/badge.svg" alt="Python CI"></a>
+  <a href="https://cs50.harvard.edu/certificates/33971312-603f-44b5-ae8c-69c073080305"><img src="https://img.shields.io/badge/CS50x-Completed-A51C30" alt="CS50x completed"></a>
+</p>
 
-[![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![Flask](https://img.shields.io/badge/Flask-Web%20App-000000?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
-[![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
-[![JavaScript](https://img.shields.io/badge/JavaScript-Frontend-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/docs/Web/JavaScript)
-[![Python CI](https://github.com/jtincovalverde/ReservaFlow/actions/workflows/ci.yml/badge.svg)](https://github.com/jtincovalverde/ReservaFlow/actions/workflows/ci.yml)
-[![CS50x](https://img.shields.io/badge/CS50x-Completed-A51C30)](https://cs50.harvard.edu/certificates/33971312-603f-44b5-ae8c-69c073080305)
+## Why this project exists
 
-**Video demo:** https://www.youtube.com/watch?v=mBzinlOeNAw  
-**Verified CS50x certificate:** https://cs50.harvard.edu/certificates/33971312-603f-44b5-ae8c-69c073080305
+ReservaFlow was designed around a common administrative problem: **reservations become harder to control when information is scattered across messages, notes or spreadsheets**.
+
+Instead of treating that as only a software exercise, I approached it as an **operations workflow**:
+
+**Scattered information → repeated manual work → weak visibility → higher risk of conflicts and errors.**
+
+ReservaFlow centralizes that process into one system with clear reservation states, validation, search, dashboard visibility and user-level controls.
+
+> **Management idea:** technology is useful when it removes friction, reduces repetitive work or gives the operation better visibility.
 
 ## Preview
 
 ![ReservaFlow reservations interface](assets/reservations.png)
 
-## Overview
+## What the system improves
 
-ReservaFlow is a web application for managing reservations in a simple, structured workflow. It was designed around a common operational problem: bookings become difficult to control when they are spread across messages, notes, or spreadsheets.
+| Operational need | ReservaFlow response |
+| --- | --- |
+| Centralize booking information | One structured reservation workflow |
+| Reduce scheduling conflicts | Active-slot conflict prevention |
+| Improve control | Search, filters, statuses and dashboard metrics |
+| Protect data between accounts | User-level authorization checks |
+| Reduce invalid entries | Past-date and scheduling validation |
+| Make the workflow easier to manage | Recent reservations and status visibility |
 
-The application combines authentication, reservation management, search, filtering, dashboard metrics, scheduling validation, and user-level data separation in a single Flask application.
+## Core capabilities
 
-## Architecture
-
-![ReservaFlow architecture](assets/architecture.svg)
-
-The browser sends requests to the Flask backend, which manages authentication, business rules, validation, reservation workflows, and persistence in SQLite.
-
-## Main features
-
-- User registration, login, and logout
+- User registration, login and logout
 - Secure password hashing
-- Reservation creation, editing, and deletion
-- Dashboard metrics for Total, Pending, Confirmed, Completed, and Cancelled reservations
-- Recent reservations overview
-- Search by client, phone number, or service
+- Reservation creation, editing and deletion
+- Dashboard metrics for Total, Pending, Confirmed, Completed and Cancelled reservations
+- Recent-reservations overview
+- Search by client, phone number or service
 - Filter by reservation status
 - Prevention of conflicting active reservations at the same date and time
 - Validation that prevents reservations in the past
-- User-level authorization so one account cannot edit another account's reservations
+- User-level authorization for edit and delete operations
 - Responsive Bootstrap interface with custom CSS
 - Browser confirmation before destructive delete actions
 
-## Reservation workflow
+## Reservation logic
 
 Each reservation stores:
 
@@ -55,20 +64,17 @@ Each reservation stores:
 - Status
 - Notes
 
-The supported statuses are `Pending`, `Confirmed`, `Completed`, and `Cancelled`.
+Supported statuses are `Pending`, `Confirmed`, `Completed` and `Cancelled`.
 
-Cancelled bookings do not block their former time slot. When editing a reservation, the application excludes the current reservation from conflict detection so it does not conflict with itself.
+Cancelled bookings do not block their former time slot. When editing a reservation, the application excludes the current reservation from conflict detection so the reservation does not conflict with itself.
 
-Date validation is performed both in JavaScript and on the Python backend. This means the application does not depend only on browser-side validation.
+Date validation is implemented on both the JavaScript frontend and the Python backend.
 
-## Database design
+## Architecture
 
-ReservaFlow uses SQLite with two main tables:
+![ReservaFlow architecture](assets/architecture.svg)
 
-- `users` — account information and password hashes
-- `reservations` — booking information linked to a `user_id`
-
-Reservation queries are scoped to the authenticated user. The application also verifies `user_id` during edit and delete operations to prevent unauthorized access by URL manipulation.
+The browser communicates with a Flask backend that handles authentication, business rules, validation, reservation workflows and persistence in SQLite.
 
 ## Tech stack
 
@@ -84,7 +90,7 @@ Reservation queries are scoped to the authenticated user. The application also v
 
 ## Run locally
 
-1. Clone or download the repository.
+1. Clone the repository.
 2. Install dependencies:
 
 ```bash
@@ -97,16 +103,16 @@ pip install -r requirements.txt
 sqlite3 project.db < schema.sql
 ```
 
-4. Optional but recommended: copy `.env.example` to `.env` and replace the example secret with your own secure value.
-5. Start the app:
+4. Copy `.env.example` to `.env` and replace the example secret with your own secure value.
+5. Start the application:
 
 ```bash
 flask run
 ```
 
-6. Open the local Flask URL and register a new account.
+6. Open the local Flask URL and register an account.
 
-The local database, sessions, environment file, and Python cache files are intentionally excluded from version control.
+The local database, sessions, environment file and Python cache files are intentionally excluded from version control.
 
 ## Project structure
 
@@ -117,7 +123,8 @@ ReservaFlow/
 │       └── ci.yml
 ├── assets/
 │   ├── architecture.svg
-│   └── reservations.png
+│   ├── reservations.png
+│   └── reservaflow-banner.svg
 ├── static/
 │   ├── app.js
 │   └── styles.css
@@ -138,11 +145,25 @@ ReservaFlow/
 
 ## Design decisions
 
-I kept reservation status in the same table rather than splitting bookings into separate tables by state. This makes status transitions simpler and avoids unnecessary duplication.
+I kept reservation status in the same table rather than splitting bookings into separate tables by state. This simplifies transitions and avoids unnecessary duplication.
 
-I also chose to prevent active reservations from sharing the same date and time. That rule goes beyond basic CRUD behavior and makes the application closer to a real booking workflow.
+Active reservations are prevented from sharing the same date and time. This business rule goes beyond basic CRUD behavior and makes the application closer to a real booking workflow.
 
-SQLite was appropriate for the scope of the project because it provides persistent relational storage without requiring a separate database server.
+SQLite was appropriate for the scope because it provides persistent relational storage without requiring a separate database server.
+
+## Next operational improvements
+
+Future versions could add:
+
+- calendar view and configurable working hours;
+- different reservation durations;
+- customer profiles and staff accounts;
+- notifications and exports;
+- analytics for demand, occupancy and cancellation patterns;
+- resource/staff scheduling;
+- deployment to a production environment.
+
+Those improvements would move ReservaFlow from a reservation manager toward a broader **operations and capacity-management system**.
 
 ## CS50x
 
@@ -153,8 +174,8 @@ ReservaFlow was submitted as my final project for **CS50x: Introduction to Compu
 
 ## AI assistance
 
-ChatGPT was used during development as a programming assistant and tutor for explaining concepts, reviewing code, discussing project structure, and debugging. AI assistance is disclosed here and in the source code.
+ChatGPT was used as a programming assistant and tutor for explaining concepts, reviewing code, discussing project structure and debugging. AI assistance is disclosed here and in the source code.
 
-## Possible improvements
+---
 
-Future versions could add a calendar view, configurable working hours, different reservation durations, customer profiles, staff accounts, notifications, exports, analytics, and deployment to a production environment.
+[← Back to my GitHub profile](https://github.com/jtincovalverde)
