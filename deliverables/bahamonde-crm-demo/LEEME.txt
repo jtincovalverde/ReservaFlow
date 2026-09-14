@@ -1,0 +1,9 @@
+BAHAMONDE CRM DEMO CORREGIDA
+
+1. Descomprima todo el ZIP.
+2. Haga doble clic en ABRIR_DEMO.bat.
+3. La información se guarda automáticamente en ese navegador y equipo.
+
+Incluye: cartera, contactos, oportunidades, seguimientos, alertas, cotizaciones PDF, productos, precios, stock, posventa, recompra, dashboard, metas y perfiles.
+
+Esta versión es una demo local con datos ficticios. La sincronización real entre computadoras, autenticación y base de datos central corresponden a la fase productiva.
